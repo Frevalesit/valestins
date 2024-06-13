@@ -1,0 +1,1 @@
+	document.write('<scr' + 'ipt type="text/javascript" src="//holdingwager.com/da2cbdb5ab4ba01ad5eccfe6639f39ed/invoke.js"></scr' + 'ipt>');

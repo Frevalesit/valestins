@@ -1,0 +1,1 @@
+<?php $sub = $_GET ['sub'];

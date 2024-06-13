@@ -1,0 +1,53 @@
+server {
+	listen		80;
+	#listen          443 ssl;
+	server_name	www.xclone.ohh.link;
+	return		301 $scheme://xclone.ohh.link$request_uri;
+	#return		301 https://yt.ohh.link$request_uri;
+}
+server {
+	server_name	xclone.ohh.link;
+	#charset	koi8-r;
+	#access_log	/var/log/nginx/log/www.yt.freeallpdf.eu.log  main;
+	#error_log	/var/log/nginx/log/www.yt.freeallpdf.eu.log  error;
+	root		/home/krenabiz/nginxclone;
+	#autoindex	on;
+	index		index.php index.html index.htm;
+
+	location / {
+		try_files $uri $uri/ /index.php;
+		if (!-f $request_filename){
+			set $rule_0 1$rule_0;
+		}
+		if (!-d $request_filename){
+			set $rule_0 2$rule_0;
+		}
+		if ($rule_0 = "21"){
+			rewrite ^/(.*)$ /index.php?sql=$1 last;
+		}
+	}
+
+	error_page 404 /404.php;
+	location	/404.php {
+		root	/home/krenabiz/nginxclone;
+	}
+	
+	error_page  500 502 503 504  /50x.html;
+	location	/50x.html {
+		root	/home/krenabiz/nginxclone;
+	}
+
+	location ~ \.php$ {
+		root		/home/krenabiz/nginxclone;
+		try_files	$uri =404;
+		fastcgi_pass	127.0.0.1:9000;
+		fastcgi_index	index.php;
+		fastcgi_param	SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+		include		fastcgi_params;
+		#fastcgi_param	HTTPS 'on';
+	}
+
+	location ~ /\.ht {
+		deny  all;
+	}
+}
